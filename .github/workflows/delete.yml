@@ -1,7 +1,7 @@
-name: AutoBackup (@mesinpencaribot)
+name: AutoDelete (@mesinpencaribot)
 on:
   schedule:
-    - cron: 0 */24 * * *
+    - cron: 0 */12 * * *
   workflow_dispatch:
 jobs:
   Proses Backup:
@@ -16,6 +16,6 @@ jobs:
         cat >  ~/.config/rclone/rclone.conf  << EOF
         ${{ secrets.rclone }}
         EOF
-    - name: Penyalinan
+    - name: Penghapusan
       run: |
-        rclone copy COPY: PASTE: --drive-server-side-across-configs -vvP
+        rclone delete DATA: --drive-use-trash=false --rmdirs
