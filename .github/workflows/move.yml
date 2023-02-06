@@ -1,0 +1,21 @@
+name: AutoMove (@mesinpencaribot)
+on:
+  schedule:
+    - cron: 0 */12 * * *
+  workflow_dispatch:
+jobs:
+  Proses Backup:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.1.0
+    - name: Menginstall Rclone
+      run: curl https://rclone.org/install.sh | sudo bash
+    - name: Memuat konfigurasi Rclone
+      run: |
+        mkdir -p ~/.config/rclone/
+        cat >  ~/.config/rclone/rclone.conf  << EOF
+        ${{ secrets.rclone }}
+        EOF
+    - name: Proses
+      run: |
+        rclone move "SUMBER:" "PASTE:" --drive-server-side-across-configs && rclone delete "SUMBER:" --drive-use-trash=false --rmdirs
